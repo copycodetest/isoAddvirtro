@@ -29,9 +29,8 @@ jobs:
 
     - name: Download torrent with aria2
       run: |
-        sudo cd $FILE_PATH
-        sudo wget $DHT_DOWNLOAD_URL
-        sudo aria2c --dir=$FILE_PATH --dht-file-path="$FILE_PATH/dht.dat" --check-certificate=false -s8 -x8 "$FILE_MAGNET_LINK"
+        sudo wget -P /root/.cache/aria2/ $DHT_DOWNLOAD_URL
+        sudo aria2c --dir=$FILE_PATH  --check-certificate=false -s8 -x8 "$FILE_MAGNET_LINK"
 
     - name: Verify hash
       run: |
