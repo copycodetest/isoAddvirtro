@@ -15,6 +15,7 @@ jobs:
       FILE_PATH: "/tmp/isopath"
       FILE_NAME: "SW_DVD9_WIN_ENT_LTSC_2021_64BIT_ChnSimp_MLF_X22-84402.ISO"
       DHT_DOWNLOAD_URL: "https://aria2-conf-i5fd5w2el-p3terx.vercel.app/dht.dat"
+      TRACK_DOWNLOAD_URL: "https://cf.trackerslist.com/best_aria2.txt"
       VIRTRO_DOWNLOAD_URL: "https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.248-1/virtio-win.iso"
 
     steps:
@@ -30,7 +31,8 @@ jobs:
     - name: Download torrent with aria2
       run: |
         sudo wget -P /root/.cache/aria2/ $DHT_DOWNLOAD_URL
-        sudo aria2c --dir=$FILE_PATH  --check-certificate=false -s8 -x8 "$FILE_MAGNET_LINK"
+        sudo wget $TRACK_DOWNLOAD_URL
+        sudo aria2c --dir=$FILE_PATH --bt-tracker=$(cat best_aria2.txt) --check-certificate=false -s8 -x16 "$FILE_MAGNET_LINK"
 
     - name: Verify hash
       run: |
