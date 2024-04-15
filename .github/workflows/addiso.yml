@@ -14,6 +14,7 @@ jobs:
       FILE_MAGNET_LINK: "magnet:?xt=urn:btih:366ADAA52FB3639B17D73718DD5F9E3EE9477B40&dn=SW_DVD9_WIN_ENT_LTSC_2021_64BIT_ChnSimp_MLF_X22-84402.ISO&xl=5044211712"
       FILE_PATH: "/tmp/isopath"
       FILE_NAME: "SW_DVD9_WIN_ENT_LTSC_2021_64BIT_ChnSimp_MLF_X22-84402.ISO"
+      DHT_DOWNLOAD_URL: "https://github.com/P3TERX/aria2.conf/blob/master/dht.dat"
       VIRTRO_DOWNLOAD_URL: "https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.248-1/virtio-win.iso"
 
     steps:
@@ -28,7 +29,9 @@ jobs:
 
     - name: Download torrent with aria2
       run: |
-        sudo aria2c --dir=$FILE_PATH  --check-certificate=false -s8 -x8 "$FILE_MAGNET_LINK"
+        sudo cd $FILE_PATH
+        sudo wget $DHT_DOWNLOAD_URL
+        sudo aria2c --dir=$FILE_PATH --dht-file-path="$FILE_PATH/dht.dat" --check-certificate=false -s8 -x8 "$FILE_MAGNET_LINK"
 
     - name: Verify hash
       run: |
