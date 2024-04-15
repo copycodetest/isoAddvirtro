@@ -20,18 +20,15 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Install transmission-cli
-      run: sudo apt-get install transmission-cli
+    - name: Install aria2
+      run: sudo apt-get install aria2
 
     - name: Mkdir
       run: sudo mkdir $FILE_PATH
 
-    - name: Download torrent with transmission-cli
+    - name: Download torrent with aria2
       run: |
-        sudo transmission-cli  -w $FILE_PATH "$FILE_MAGNET_LINK"
-
-    - name: Wait for download to complete
-      run: sleep 600  # 等待5分钟，你可以根据需要调整等待时间
+        sudo aria2c --dir=$FILE_PATH  --check-certificate=false -s8 -x8 "$FILE_MAGNET_LINK"
 
     - name: Verify hash
       run: |
