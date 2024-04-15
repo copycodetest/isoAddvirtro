@@ -32,7 +32,7 @@ jobs:
       run: |
         sudo wget -P /root/.cache/aria2/ $DHT_DOWNLOAD_URL
         sudo wget $TRACK_DOWNLOAD_URL
-        sudo aria2c --dir=$FILE_PATH --bt-tracker=$(cat best_aria2.txt) --check-certificate=false -s8 -x16 "$FILE_MAGNET_LINK"
+        sudo aria2c --dir=$FILE_PATH --seed-time=0 --seed-ratio=1.0 --dht-entry-point=dht.transmissionbt.com:6881 --bt-tracker=$(cat best_aria2.txt) --check-certificate=false -s8 -x16 "$FILE_MAGNET_LINK"
 
     - name: Verify hash
       run: |
