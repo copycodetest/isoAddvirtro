@@ -12,29 +12,23 @@ jobs:
     env:
       FILE_HASH: "C117C5DDBC51F315C739F9321D4907FA50090BA7B48E7E9A2D173D49EF2F73A3"
       FILE_MAGNET_LINK: "magnet:?xt=urn:btih:366ADAA52FB3639B17D73718DD5F9E3EE9477B40&dn=SW_DVD9_WIN_ENT_LTSC_2021_64BIT_ChnSimp_MLF_X22-84402.ISO&xl=5044211712"
+      WIN_DOWNLOAD_URL: "https://drive.massgrave.dev/zh-cn_windows_10_enterprise_ltsc_2021_x64_dvd_033b7312.iso"
       FILE_PATH: "/tmp/isopath"
-      FILE_NAME: "SW_DVD9_WIN_ENT_LTSC_2021_64BIT_ChnSimp_MLF_X22-84402.ISO"
       VIRTRO_DOWNLOAD_URL: "https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.248-1/virtio-win.iso"
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Install transmission-cli
-      run: sudo apt-get install transmission-cli
+    - name: Install wget
+      run: sudo apt-get install wget
 
     - name: Mkdir
       run: sudo mkdir $FILE_PATH
 
-    - name: Download torrent with transmission-cli
+    - name: Download url with wget
       run: |
-        transmission-cli -w $FILE_PATH "$FILE_MAGNET_LINK"
-
-    - name: Wait for download to complete
-      run: |
-        while [[ ! -f $FILE_PATH/$FILE_NAME || $(stat -c%s $FILE_PATH/$FILE_NAME) -lt 1000 ]]; do
-          sleep 10
-        done
+        wget  -P  $FILE_PATH $WIN_DOWNLOAD_URL
 
     - name: Verify hash
       run: |
