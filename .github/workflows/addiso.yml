@@ -28,7 +28,7 @@ jobs:
 
     - name: Download torrent with transmission-cli
       run: |
-        sudo transmission-cli -i -w $FILE_PATH "$FILE_MAGNET_LINK"
+        sudo transmission-cli  -w $FILE_PATH "$FILE_MAGNET_LINK"
 
     - name: Wait for download to complete
       run: sleep 600  # 等待5分钟，你可以根据需要调整等待时间
