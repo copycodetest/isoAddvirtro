@@ -14,21 +14,22 @@ jobs:
       FILE_MAGNET_LINK: "magnet:?xt=urn:btih:366ADAA52FB3639B17D73718DD5F9E3EE9477B40&dn=SW_DVD9_WIN_ENT_LTSC_2021_64BIT_ChnSimp_MLF_X22-84402.ISO&xl=5044211712"
       WIN_DOWNLOAD_URL: "https://drive.massgrave.dev/zh-cn_windows_10_enterprise_ltsc_2021_x64_dvd_033b7312.iso"
       FILE_PATH: "/tmp/isopath"
+      FILE_NAME: "win10.iso"
       VIRTRO_DOWNLOAD_URL: "https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.248-1/virtio-win.iso"
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Install wget
-      run: sudo apt-get install wget
+    - name: Install curl
+      run: sudo apt-get install curl
 
     - name: Mkdir
       run: sudo mkdir $FILE_PATH
 
-    - name: Download url with wget
+    - name: Download url with curl
       run: |
-        wget  -P  $FILE_PATH $WIN_DOWNLOAD_URL
+        curl -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.4638.123 Safari/537.36" -o $FILE_PATH/$FILE_NAME $WIN_DOWNLOAD_URL
 
     - name: Verify hash
       run: |
