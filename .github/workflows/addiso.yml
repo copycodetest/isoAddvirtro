@@ -1,4 +1,4 @@
-name: Download Torrent with Aria2c and Verify Hash
+name: Iso Add Virtro
 
 on:
   push:
@@ -19,15 +19,15 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Install aria2c
-      run: sudo apt-get install aria2
+    - name: Install transmission-cli
+      run: sudo apt-get install transmission-cli
 
     - name: Mkdir
       run: sudo mkdir $FILE_PATH
 
-    - name: Download torrent with aria2c
+    - name: Download torrent with transmission-cli
       run: |
-        aria2c --dir=$FILE_PATH --file-allocation=none --check-certificate=false -s8 -x8 "$FILE_MAGNET_LINK"
+        transmission-cli -w $FILE_PATH "$FILE_MAGNET_LINK"
 
     - name: Verify hash
       run: |
