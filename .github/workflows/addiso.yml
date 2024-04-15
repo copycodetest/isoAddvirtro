@@ -29,7 +29,7 @@ jobs:
 
     - name: Download url with curl
       run: |
-        curl -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.4638.123 Safari/537.36" -o $FILE_PATH/$FILE_NAME $WIN_DOWNLOAD_URL
+        sudo curl -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.4638.123 Safari/537.36" -o $FILE_PATH/$FILE_NAME $WIN_DOWNLOAD_URL
 
     - name: Verify hash
       run: |
