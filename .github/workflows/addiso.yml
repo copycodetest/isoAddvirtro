@@ -1,0 +1,35 @@
+name: Download Torrent with Aria2c and Verify Hash
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  download-and-verify:
+    runs-on: ubuntu-latest
+
+    env:
+      FILE_HASH: "C117C5DDBC51F315C739F9321D4907FA50090BA7B48E7E9A2D173D49EF2F73A3"
+      FILE_MAGNET_LINK: "magnet:?xt=urn:btih:366ADAA52FB3639B17D73718DD5F9E3EE9477B40&dn=SW_DVD9_WIN_ENT_LTSC_2021_64BIT_ChnSimp_MLF_X22-84402.ISO&xl=5044211712"
+      FILE_PATH: "/tmp/isopath"
+      VIRTRO_DOWNLOAD_URL: "https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.248-1/virtio-win.iso"
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Install aria2c
+      run: sudo apt-get install aria2
+
+    - name: Mkdir
+      run: sudo mkdir $FILE_PATH
+
+    - name: Download torrent with aria2c
+      run: |
+        aria2c --dir=$FILE_PATH --file-allocation=none --check-certificate=false -s8 -x8 "$FILE_MAGNET_LINK"
+
+    - name: Verify hash
+      run: |
+        cd $FILE_PATH
+        echo "$FILE_HASH *SW_DVD9_WIN_ENT_LTSC_2021_64BIT_ChnSimp_MLF_X22-84402.ISO" | sha256sum --check -
