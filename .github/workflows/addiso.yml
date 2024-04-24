@@ -29,7 +29,7 @@ jobs:
       run: sudo mkdir $FILE_PATH
 
     - name: Download Win.iso with aria2
-      if: ${{ env.FILE_MAGNET_LINK == "" }}
+      if: ${{ env.FILE_MAGNET_LINK == '' }}
       run: |
         echo  ${{ env.FILE_MAGNET_LINK}}
         sudo wget -P /root/.cache/aria2/ $DHT_DOWNLOAD_URL
