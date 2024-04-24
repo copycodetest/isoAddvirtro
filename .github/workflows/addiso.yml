@@ -17,7 +17,6 @@ jobs:
       DHT_DOWNLOAD_URL: "https://aria2-conf-i5fd5w2el-p3terx.vercel.app/dht.dat"
       TRACK_DOWNLOAD_URL: "https://cf.trackerslist.com/best_aria2.txt"
       VIRTRO_DOWNLOAD_URL: "https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/latest-virtio/virtio-win.iso"
-      SKIPDOWN: true
 
     steps:
     - name: Checkout repository
@@ -30,8 +29,9 @@ jobs:
       run: sudo mkdir $FILE_PATH
 
     - name: Download Win.iso with aria2
-      if: ${{ env.SKIPDOWN != true }}
+      if: ${{ env.FILE_MAGNET_LINK == "" }}
       run: |
+        echo  ${{ env.FILE_MAGNET_LINK}}
         sudo wget -P /root/.cache/aria2/ $DHT_DOWNLOAD_URL
         sudo wget $TRACK_DOWNLOAD_URL
         sudo aria2c --dir=$FILE_PATH --seed-time=0 --seed-ratio=1.0 --dht-entry-point=dht.transmissionbt.com:6881 --bt-tracker=$(cat best_aria2.txt) --check-certificate=false -s8 -x16 "$FILE_MAGNET_LINK"
