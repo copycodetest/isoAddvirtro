@@ -22,14 +22,18 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Install aria2
-      run: sudo apt-get install aria2
+    - name: Install software
+      run: |
+        sudo apt-get install aria2
+        sudo apt install xorriso
 
     - name: Mkdir
-      run: sudo mkdir $FILE_PATH
+      run: |
+        sudo mkdir $FILE_PATH
+        sudo mkdir /mnt/virtroiso
 
     - name: Download Win.iso with aria2
-      if: ${{ env.FILE_MAGNET_LINK == '' }}
+      if: ${{ env.FILE_MAGNET_LINK != '' }}
       run: |
         echo  ${{ env.FILE_MAGNET_LINK}}
         sudo wget -P /root/.cache/aria2/ $DHT_DOWNLOAD_URL
@@ -40,18 +44,24 @@ jobs:
     - name: Download Virtro.iso with aria2
       run: |
         sudo wget  $VIRTRO_DOWNLOAD_URL -O $FILE_PATH/virtro.iso
+        sudo mount -o loop $FILE_PATH/virtro.iso /mnt/virtroiso
         echo $(ls $FILE_PATH)
 
     - name: Verify hash
-      if: ${{ env.FILE_MAGNET_LINK == '' }}
+      if: ${{ env.FILE_MAGNET_LINK != '' }}
       run: |
         cd $FILE_PATH
         echo "$FILE_HASH *$FILE_NAME" | sha256sum --check -
         echo $(ls $FILE_PATH)
-        
+
+    - name: Make New Iso with Virtro
+      run: |
+        cd $FILE_PATH
+        sudo xorriso -as mkisofs -o win_with_virtro.iso -isohybrid-mbr $FILE_NAME -graft-points /mnt/virtroiso /virtro
+      
     - name: Upload to Gofile.io
       uses: ahnafnafee/action-upload-gofile@v2.1.0
       with:
-        file: /tmp/isopath/virtro.iso
+        file: /tmp/isopath/win_with_virtro.iso
         token: ${{ secrets.GOFILE_APIKEY }}
           
