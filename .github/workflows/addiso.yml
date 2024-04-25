@@ -39,7 +39,7 @@ jobs:
 
     - name: Download Virtro.iso with aria2
       run: |
-        sudo wget -P $FILE_PATH $VIRTRO_DOWNLOAD_URL -O virtro.iso
+        sudo wget  $VIRTRO_DOWNLOAD_URL -O $FILE_PATH/virtro.iso
         echo $(ls $FILE_PATH)
 
     - name: Verify hash
