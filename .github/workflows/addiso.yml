@@ -40,8 +40,10 @@ jobs:
     - name: Download Virtro.iso with aria2
       run: |
         sudo wget -P $FILE_PATH $VIRTRO_DOWNLOAD_URL -O virtro.iso
+        echo $(ls $FILE_PATH)
 
     - name: Verify hash
+      if: ${{ env.FILE_MAGNET_LINK == '' }}
       run: |
         cd $FILE_PATH
         echo "$FILE_HASH *$FILE_NAME" | sha256sum --check -
