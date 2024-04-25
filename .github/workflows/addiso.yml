@@ -30,7 +30,8 @@ jobs:
     - name: Mkdir
       run: |
         sudo mkdir $FILE_PATH
-        sudo mkdir /mnt/virtroiso
+        cd $FILE_PATH
+        sudo mkdir virtroiso
 
     - name: Download Win.iso with aria2
       if: ${{ env.FILE_MAGNET_LINK != '' }}
@@ -44,7 +45,7 @@ jobs:
     - name: Download Virtro.iso with aria2
       run: |
         sudo wget  $VIRTRO_DOWNLOAD_URL -O $FILE_PATH/virtro.iso
-        sudo mount -o loop $FILE_PATH/virtro.iso /mnt/virtroiso
+        sudo mount -o loop $FILE_PATH/virtro.iso $FILE_PATH/virtroiso
         echo $(ls $FILE_PATH)
 
     - name: Verify hash
@@ -57,7 +58,7 @@ jobs:
     - name: Make New Iso with Virtro
       run: |
         cd $FILE_PATH
-        sudo xorriso -osirrox on -indev $FILE_NAME -outdev win_with_virtio.iso -add /mnt/virtioiso/=sources/
+        sudo xorriso -osirrox on -indev $FILE_NAME -outdev win_with_virtio.iso -add $FILE_PATH/virtroiso/=sources/
       
     - name: Upload to Gofile.io
       uses: ahnafnafee/action-upload-gofile@v2.1.0
