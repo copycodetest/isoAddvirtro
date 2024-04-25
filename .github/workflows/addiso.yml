@@ -52,6 +52,6 @@ jobs:
     - name: Upload to Gofile.io
       uses: ahnafnafee/action-upload-gofile@v2.1.0
       with:
-        file: $FILE_PATH/virtro.iso
+        file: /tmp/isopath/virtro.iso
         token: ${{ secrets.GOFILE_APIKEY }}
           
