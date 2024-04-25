@@ -58,7 +58,8 @@ jobs:
     - name: Make New Iso with Virtro
       run: |
         cd $FILE_PATH
-        sudo xorriso -osirrox on -indev $FILE_NAME -outdev win_with_virtio.iso -add $FILE_PATH/virtroiso/=sources/
+        echo $(ls /tmp/isopath/virtroiso)
+        sudo xorriso -osirrox on -indev $FILE_NAME -outdev win_with_virtio.iso -add $FILE_PATH/virtroiso/=support
       
     - name: Upload to Gofile.io
       uses: ahnafnafee/action-upload-gofile@v2.1.0
